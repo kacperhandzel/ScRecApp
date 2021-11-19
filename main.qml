@@ -22,10 +22,12 @@ ApplicationWindow {
             title: "Please choose a file"
             folder: shortcuts.home
             selectFolder: true
+            selectExisting: true
             selectMultiple: false
             onAccepted: {
                 console.log("You chose: " + fileDialog.fileUrls)
                 filePathTextField.text = fileDialog.fileUrl
+                pathDataList.appendItem(fileDialog.fileUrl)
             }
             onRejected: {
                 console.log("Canceled")
@@ -52,23 +54,10 @@ ApplicationWindow {
             text: "Watched paths"
         }
 
-        ListView {
-            id: watchedListView
-            implicitHeight: 250
-            implicitWidth: 250
-            clip: true
 
-            model: 2
-            delegate: RowLayout {
-                width: parent.width
+        PathListView {
+            anchors.centerIn: parent
 
-                Text {
-                    text: "File"
-                }
-                Button {
-                    text: "Remove"
-                }
-            }
         }
 
         TableView {

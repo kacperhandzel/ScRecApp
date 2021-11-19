@@ -1,6 +1,13 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
+#include <QQmlContext>
+#include <QStringList>
+
+
+#include "pathdatamodel.h"
+#include "pathdatalist.h"
+
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -8,15 +15,16 @@ int main(int argc, char *argv[])
 #endif
 
     QGuiApplication app(argc, argv);
-
     QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
-    engine.load(url);
+
+    PathDataList pathList;
+
+    qmlRegisterType<PathDataModel> ("PathData",1,0,"PathDataModel");
+    qmlRegisterUncreatableType<PathDataList>("PathList",1,0,"PathDataList",QString("PathDataList should not be created in QML"));
+
+    engine.rootContext()->setContextProperty("pathDataList",&pathList);
+    engine.load(QUrl(QLatin1String("qrc:/main.qml")));
+
 
     return app.exec();
 }
