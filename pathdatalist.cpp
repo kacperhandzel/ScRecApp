@@ -31,6 +31,7 @@ void PathDataList::appendItem(QString fullPath)
     if (file_info.isDir())
         item.type = 0;
 
+    emit itemAppended(fullPath);
     emit preItemAppended();
     this->mItems.append(item);
     emit postItemAppended();
@@ -39,6 +40,8 @@ void PathDataList::appendItem(QString fullPath)
 
 void PathDataList::removeItem(int row)
 {
+    QString temp_path = this->mItems.at(row).description;
+    emit itemRemoved(temp_path);
     emit preItemRemoved(row);
     this->mItems.remove(row);
     emit postItemRemoved();

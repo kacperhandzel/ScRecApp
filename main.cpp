@@ -2,11 +2,10 @@
 #include <QQmlApplicationEngine>
 
 #include <QQmlContext>
-#include <QStringList>
-
-
+#include <QObject>
 #include "pathdatamodel.h"
 #include "pathdatalist.h"
+#include "filesystemwatcher.h"
 
 int main(int argc, char *argv[])
 {
@@ -18,6 +17,14 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     PathDataList pathList;
+
+    FileSystemWatcher fsw;
+
+    fsw.addPath("/Users/kacperhandzel/Documents/Emiter");
+
+    QObject::connect(&pathList,&PathDataList::itemAppended,&fsw,&FileSystemWatcher::addUserPath);
+    QObject::connect(&pathList,&PathDataList::itemRemoved,&fsw,&FileSystemWatcher::removeUserPath);
+
 
     qmlRegisterType<PathDataModel> ("PathData",1,0,"PathDataModel");
     qmlRegisterUncreatableType<PathDataList>("PathList",1,0,"PathDataList",QString("PathDataList should not be created in QML"));

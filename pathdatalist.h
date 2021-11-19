@@ -5,6 +5,7 @@
 #include <QVector>
 #include <QFileInfo>
 #include <QDir>
+#include <QFileSystemWatcher>
 struct PathDataItem
 {
     int type;
@@ -27,9 +28,11 @@ public slots:
 signals:
     void preItemAppended();
     void postItemAppended();
+    void itemAppended(QString fullPath); //do obslugi FileWatcherSys
 
     void preItemRemoved(int index);
     void postItemRemoved();
+    void itemRemoved(QString fullPath); //do obslugi FileWatcherSys
 
 private:
     QVector<PathDataItem> mItems;
