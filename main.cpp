@@ -6,6 +6,8 @@
 #include "pathdatamodel.h"
 #include "pathdatalist.h"
 #include "filesystemwatcher.h"
+#include "eventclassmodel.h"
+#include "eventlist.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,6 +19,8 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     PathDataList pathList;
+    EventList eventList;
+    EventClassModel eventClass;
 
     FileSystemWatcher fsw;
 
@@ -25,11 +29,15 @@ int main(int argc, char *argv[])
     QObject::connect(&pathList,&PathDataList::itemAppended,&fsw,&FileSystemWatcher::addUserPath);
     QObject::connect(&pathList,&PathDataList::itemRemoved,&fsw,&FileSystemWatcher::removeUserPath);
 
+    QObject::connect(&fsw,&FileSystemWatcher::putEventItem,&eventList,&EventList::appendItem);
 
+    qmlRegisterType<EventClassModel> ("EventClass",1, 0 ,"EventClassModel");
     qmlRegisterType<PathDataModel> ("PathData",1,0,"PathDataModel");
+    qmlRegisterUncreatableType<EventList> ("EventList",1,0,"EventList",QString("EventList should not be created in QML"));
     qmlRegisterUncreatableType<PathDataList>("PathList",1,0,"PathDataList",QString("PathDataList should not be created in QML"));
 
     engine.rootContext()->setContextProperty("pathDataList",&pathList);
+    engine.rootContext()->setContextProperty("eventDataList",&eventList);
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
 
 

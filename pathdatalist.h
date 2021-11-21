@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QVector>
+
 #include <QFileInfo>
 #include <QDir>
 #include <QFileSystemWatcher>

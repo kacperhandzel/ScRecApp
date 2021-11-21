@@ -36,6 +36,7 @@ ApplicationWindow {
 
     ColumnLayout {
         id: mainLayout
+        width: parent.width
         Layout.fillWidth: true
         RowLayout {
             id: rowLayout
@@ -54,35 +55,42 @@ ApplicationWindow {
             text: "Watched paths"
         }
 
-
-        PathListView {
-            anchors.centerIn: parent
-
-        }
-
-        TableView {
-            id: eventTableView
-
-            columnSpacing: 1
-            rowSpacing: 1
-            clip: true
-        }
-
         RowLayout {
-            id: buttonRowLayout
-            Button {
-                id: clearEventsButton
-                text: "Clear"
-                onClicked: console.log("clearPathButton")
+            Layout.fillWidth: true
+            PathListView {
+                width: parent.width
             }
-            Button {
-                id: startEventsButton
-                text: "Start"
+        }
+        ColumnLayout {
+            width: parent.width
+            Layout.fillWidth: true
+            RowLayout {
+                width: parent.width
+                Layout.fillWidth: true
+                EventTableView {
+                    width: parent.width
+
+                }
             }
 
-            Button {
-                id: stopEventsButton
-                text: "Stop"
+            RowLayout {
+                id: buttonRowLayout
+                width: parent.width
+                Layout.fillWidth: true
+                Button {
+                    id: clearEventsButton
+                    text: "Clear"
+                    onClicked: console.log("clearPathButton")
+                }
+                Button {
+                    id: startEventsButton
+                    text: "Start"
+                }
+
+                Button {
+                    id: stopEventsButton
+                    text: "Stop"
+                }
             }
         }
     }

@@ -2,7 +2,7 @@
 
 PathDataList::PathDataList(QObject *parent) : QObject(parent)
 {
-    mItems.append({1,QString("Plik A")});
+    //mItems.append({1,QString("Plik A")});
 }
 
 QVector<PathDataItem> PathDataList::items() const
@@ -12,6 +12,7 @@ QVector<PathDataItem> PathDataList::items() const
 
 bool PathDataList::addItem(PathDataItem item)
 {
+
     emit preItemAppended();
     this->mItems.append(item);
     emit postItemAppended();

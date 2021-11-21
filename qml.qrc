@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>PathListView.qml</file>
+        <file>EventTableView.qml</file>
     </qresource>
 </RCC>

@@ -22,7 +22,8 @@ QVariant PathDataModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    const PathDataItem item = mList->items().at(index.row());
+    //const PathDataItem item = mList->items().at(index.row());
+    const auto item = mList->items().at(index.row());
     switch (role) {
     case DescriptionRole:
         return QVariant(item.description);
