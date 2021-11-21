@@ -106,6 +106,14 @@ void EventClassModel::setList(EventList *list)
         connect(mList,&EventList::postItemAppended, this, [=] () {
             endInsertRows();
         });
+        connect(mList,&EventList::preItemRemoved, this, [=] () {
+            const int index = mList->items().size();
+            beginRemoveRows(QModelIndex(), index, index);
+        });
+
+        connect(mList,&EventList::postItemRemoved, this, [=] () {
+            endRemoveRows();
+        });
     }
     endResetModel();
 }

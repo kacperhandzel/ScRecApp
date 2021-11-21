@@ -23,7 +23,11 @@ void PathDataList::appendItem(QString fullPath)
 {
     PathDataItem item;
     QFileInfo file_info;
-    fullPath.remove(0,7); //Usun file://
+    #if defined(Q_OS_WIN)
+        fullPath.remove(0,8); //Usun file:///
+    #else
+        fullPath.remove(0,7); //Usun file://
+    #endif
     file_info.setFile(fullPath);
 
     item.description = file_info.filePath();

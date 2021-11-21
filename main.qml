@@ -12,31 +12,32 @@ ApplicationWindow {
     visible: true
     title: qsTr("Hello World")
     property int margin: 11
-        width: mainLayout.implicitWidth + 2 * margin
-        height: mainLayout.implicitHeight + 2 * margin
-        minimumWidth: mainLayout.Layout.minimumWidth + 2 * margin
-        minimumHeight: mainLayout.Layout.minimumHeight + 2 * margin
+    width: mainLayout.implicitWidth + 2 * margin
+    height: mainLayout.implicitHeight + 2 * margin
+    minimumWidth: mainLayout.Layout.minimumWidth + 2 * margin
+    minimumHeight: mainLayout.Layout.minimumHeight + 2 * margin
 
-        FileDialog {
-            id: fileDialog
-            title: "Please choose a file"
-            folder: shortcuts.home
-            selectFolder: true
-            selectExisting: true
-            selectMultiple: false
-            onAccepted: {
-                console.log("You chose: " + fileDialog.fileUrls)
-                filePathTextField.text = fileDialog.fileUrl
-                pathDataList.appendItem(fileDialog.fileUrl)
-            }
-            onRejected: {
-                console.log("Canceled")
-            }
+    FileDialog {
+        id: fileDialog
+        title: "Please choose a file"
+        folder: shortcuts.home
+        selectFolder: true
+        selectExisting: true
+        selectMultiple: false
+        onAccepted: {
+            console.log("You chose: " + fileDialog.fileUrls)
+            filePathTextField.text = fileDialog.fileUrl
+            pathDataList.appendItem(fileDialog.fileUrl)
         }
+        onRejected: {
+            console.log("Canceled")
+        }
+    }
 
     ColumnLayout {
         id: mainLayout
         width: parent.width
+
         Layout.fillWidth: true
         RowLayout {
             id: rowLayout
@@ -48,7 +49,10 @@ ApplicationWindow {
             Button {
                 id: addPathButton
                 text: "Add"
-                onClicked: { console.log("addPathButton");  fileDialog.open()}
+                onClicked: {
+                    console.log("addPathButton");
+                    fileDialog.open()
+                }
             }
         }
         Text {
@@ -61,6 +65,7 @@ ApplicationWindow {
                 width: parent.width
             }
         }
+
         ColumnLayout {
             width: parent.width
             Layout.fillWidth: true
@@ -80,16 +85,27 @@ ApplicationWindow {
                 Button {
                     id: clearEventsButton
                     text: "Clear"
-                    onClicked: console.log("clearPathButton")
+                    onClicked: {
+                        console.log("clearEventsButton")
+                        eventDataList.clearList();
+                    }
                 }
                 Button {
                     id: startEventsButton
                     text: "Start"
+                    onClicked: {
+                        console.log("startWatchingButton");
+                        fileSystemWatcher.startWatching()
+                    }
                 }
 
                 Button {
                     id: stopEventsButton
                     text: "Stop"
+                    onClicked: {
+                        console.log("stopWatchingButton");
+                        fileSystemWatcher.stopWatching()
+                    }
                 }
             }
         }

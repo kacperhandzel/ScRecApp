@@ -30,14 +30,28 @@ void FileSystemWatcher::removeUserPath(QString path)
     qDebug() << path << " path removed";
 }
 
+void FileSystemWatcher::stopWatching()
+{
+    //disconnect(this,&FileSystemWatcher::directoryChanged, this, &FileSystemWatcher::SomethingChanged);
+    this->isWatching = false;
+}
+
+void FileSystemWatcher::startWatching()
+{
+    //connect(this,&FileSystemWatcher::directoryChanged, this, &FileSystemWatcher::SomethingChanged);
+    this->isWatching = true;
+}
+
 bool FileSystemWatcher::insertDirMapItem(QString path, DirInternalItem dirIntItem)
 {
     this->dirMap.insert(path, dirIntItem);
+    return true;
 }
 
 bool FileSystemWatcher::removeDirMapItem(QString path)
 {
     this->dirMap.remove(path);
+    return true;
 }
 
 int FileSystemWatcher::countDirs(QString path)
@@ -90,7 +104,7 @@ void FileSystemWatcher::compareDir(QString path)
 
         bool isDir = (fileCntDiff > 0 ? false : true);
         EventItem item = createItem(path, CreatedEvent, isDir);
-
+        if(isWatching)
         emit putEventItem(item);
     }
     else if (fileCntDiff < 0 || dirCntDiff < 0)
@@ -102,7 +116,8 @@ void FileSystemWatcher::compareDir(QString path)
         bool isDir = (fileCntDiff < 0 ? false : true);
         EventItem item = createItem(path, DeletedEvent, isDir);
 
-        emit putEventItem(item);
+       if(isWatching)
+           emit putEventItem(item);
     }
     else if (fileCntDiff==0 && dirCntDiff == 0)
     {
@@ -113,7 +128,7 @@ void FileSystemWatcher::compareDir(QString path)
         //emit putModifiedItem
         bool isDir = (fileCntDiff == 0 ? false : true);
         EventItem item = createItem(path, ModifiedEvent, isDir);
-
+        if(isWatching)
         emit putEventItem(item);
     }
     tempItem.dir_cnt = actDirCnt;

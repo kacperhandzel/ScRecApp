@@ -26,8 +26,12 @@ public slots:
     void addUserPath(QString path);
     void removeUserPath(QString path);
 
+    void stopWatching();
+    void startWatching();
+
 private:
     //Dane do eventow
+
     bool insertDirMapItem(QString path, DirInternalItem dirIntItem); //
     bool removeDirMapItem(QString path);
     int countDirs(QString path);
@@ -35,12 +39,15 @@ private:
 
     void prepareDirMapToInsert(QString path);
 
-    QMap<QString, DirInternalItem> dirMap;
-
     //Porownanie katalogow po zmianie
     void compareDir(QString path);
 
     EventItem createItem(QString path, int eventType, bool isDir);
+
+    QMap<QString, DirInternalItem> dirMap;
+    bool isWatching = true;
+
+
 
 signals:
     void putEventItem(EventItem item);

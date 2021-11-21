@@ -16,3 +16,10 @@ void EventList::appendItem(EventItem item)
     this->mItems.append(item);
     emit postItemAppended();
 }
+
+void EventList::clearList()
+{
+    emit preItemRemoved();
+    this->mItems.clear();
+    emit postItemRemoved();
+}

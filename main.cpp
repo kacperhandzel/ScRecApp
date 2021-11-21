@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 
     FileSystemWatcher fsw;
 
-    fsw.addPath("/Users/kacperhandzel/Documents/Emiter");
+
 
     QObject::connect(&pathList,&PathDataList::itemAppended,&fsw,&FileSystemWatcher::addUserPath);
     QObject::connect(&pathList,&PathDataList::itemRemoved,&fsw,&FileSystemWatcher::removeUserPath);
@@ -33,11 +33,14 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<EventClassModel> ("EventClass",1, 0 ,"EventClassModel");
     qmlRegisterType<PathDataModel> ("PathData",1,0,"PathDataModel");
+
     qmlRegisterUncreatableType<EventList> ("EventList",1,0,"EventList",QString("EventList should not be created in QML"));
     qmlRegisterUncreatableType<PathDataList>("PathList",1,0,"PathDataList",QString("PathDataList should not be created in QML"));
 
+
     engine.rootContext()->setContextProperty("pathDataList",&pathList);
     engine.rootContext()->setContextProperty("eventDataList",&eventList);
+    engine.rootContext()->setContextProperty("fileSystemWatcher",&fsw);
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
 
 

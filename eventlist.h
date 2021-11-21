@@ -17,11 +17,15 @@ signals:
     void preItemAppended();
     void postItemAppended();
 
+    void preItemRemoved();
+    void postItemRemoved();
+
 private:
     QVector<EventItem> mItems;
 
 public slots:
     void appendItem(EventItem item);
+    void clearList();
 
 };
 

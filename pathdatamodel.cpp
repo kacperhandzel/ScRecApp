@@ -37,6 +37,7 @@ bool PathDataModel::insertRows(int row, int count, const QModelIndex &parent)
     beginInsertRows(parent, row, row + count - 1);
     // FIXME: Implement me!
     endInsertRows();
+    return true;
 }
 
 bool PathDataModel::removeRows(int row, int count, const QModelIndex &parent)
@@ -44,6 +45,7 @@ bool PathDataModel::removeRows(int row, int count, const QModelIndex &parent)
     beginRemoveRows(parent, row, row + count - 1);
     // FIXME: Implement me!
     endRemoveRows();
+    return true;
 }
 
 QHash<int, QByteArray> PathDataModel::roleNames() const
