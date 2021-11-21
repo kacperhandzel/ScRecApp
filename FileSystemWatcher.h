@@ -6,12 +6,14 @@
 #include <QDebug>
 #include <QDir>
 #include <QDateTime>
+#include <QSet>
 #include "EventItem.h"
 
 
 struct DirInternalItem {
-    int dir_cnt = 0;
-    int file_cnt = 0;
+    int dir_cnt {0};
+    int file_cnt {0};
+    QStringList dirList {};
 };
 
 class FileSystemWatcher : public QFileSystemWatcher
@@ -36,11 +38,13 @@ private:
     bool removeDirMapItem(QString path);
     int countDirs(QString path);
     int countFiles(QString path);
+    QStringList getDirList(QString path); //pobiera liste katalogow wewnatrz path
 
     void prepareDirMapToInsert(QString path);
 
     //Porownanie katalogow po zmianie
     void compareDir(QString path);
+    bool compareDirList(QStringList oldDirList, QStringList newDirList);
 
     EventItem createItem(QString path, int eventType, bool isDir);
 

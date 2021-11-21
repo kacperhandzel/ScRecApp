@@ -10,7 +10,7 @@ ApplicationWindow {
 
 
     visible: true
-    title: qsTr("Hello World")
+    title: qsTr("File System Watcher")
     property int margin: 11
     width: mainLayout.implicitWidth + 2 * margin
     height: mainLayout.implicitHeight + 2 * margin

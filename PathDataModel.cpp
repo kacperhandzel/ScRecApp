@@ -1,5 +1,5 @@
-#include "pathdatamodel.h"
-#include "pathdatalist.h"
+#include "PathDataModel.h"
+#include "PathDataList.h"
 
 PathDataModel::PathDataModel(QObject *parent)
     : QAbstractListModel(parent), mList(nullptr)

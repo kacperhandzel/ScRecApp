@@ -7,12 +7,12 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        eventclassmodel.cpp \
-        eventlist.cpp \
-        filesystemwatcher.cpp \
-        main.cpp \
-        pathdatalist.cpp \
-        pathdatamodel.cpp
+        EventClassModel.cpp \
+        EventList.cpp \
+        FileSystemWatcher.cpp \
+        PathDataList.cpp \
+        PathDataModel.cpp \
+        main.cpp
 
 RESOURCES += qml.qrc
 
@@ -28,9 +28,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    EventClassModel.h \
     EventItem.h \
-    eventclassmodel.h \
-    eventlist.h \
-    filesystemwatcher.h \
-    pathdatalist.h \
-    pathdatamodel.h
+    EventList.h \
+    FileSystemWatcher.h \
+    PathDataList.h \
+    PathDataModel.h

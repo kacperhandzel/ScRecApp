@@ -1,5 +1,5 @@
-#include "eventclassmodel.h"
-#include "eventlist.h"
+#include "EventClassModel.h"
+#include "EventList.h"
 
 EventClassModel::EventClassModel(QObject *parent)
     : QAbstractTableModel(parent), mList(nullptr)

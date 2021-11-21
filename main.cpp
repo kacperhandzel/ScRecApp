@@ -3,11 +3,11 @@
 
 #include <QQmlContext>
 #include <QObject>
-#include "pathdatamodel.h"
-#include "pathdatalist.h"
-#include "filesystemwatcher.h"
-#include "eventclassmodel.h"
-#include "eventlist.h"
+#include "PathDataModel.h"
+#include "PathDataList.h"
+#include "FileSystemWatcher.h"
+#include "EventClassModel.h"
+#include "EventList.h"
 
 int main(int argc, char *argv[])
 {

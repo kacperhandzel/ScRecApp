@@ -1,4 +1,4 @@
-#include "filesystemwatcher.h"
+#include "FileSystemWatcher.h"
 
 FileSystemWatcher::FileSystemWatcher()
 {
@@ -78,12 +78,21 @@ int FileSystemWatcher::countFiles(QString path)
     return dirFiles_cnt;
 }
 
+QStringList FileSystemWatcher::getDirList(QString path)
+{
+    QDir dir;
+    dir.setFilter(QDir::Dirs);
+    dir.setCurrent(path);
+    return dir.entryList();
+}
+
 void FileSystemWatcher::prepareDirMapToInsert(QString path)
 {
     DirInternalItem temp_item;
 
     temp_item.file_cnt = this->countFiles(path);
     temp_item.dir_cnt = this->countDirs(path);
+    temp_item.dirList = this->getDirList(path);
 
     this->insertDirMapItem(path,temp_item);
 }
@@ -92,6 +101,7 @@ void FileSystemWatcher::compareDir(QString path)
 {
     auto actFileCnt = this->countFiles(path);
     auto actDirCnt = this->countDirs(path);
+    auto actDirList = this->getDirList(path);
 
     auto& tempItem = this->dirMap[path];
 
@@ -103,36 +113,44 @@ void FileSystemWatcher::compareDir(QString path)
         qDebug() << "Created";
 
         bool isDir = (fileCntDiff > 0 ? false : true);
-        EventItem item = createItem(path, CreatedEvent, isDir);
+        const auto item = createItem(path, CreatedEvent, isDir);
         if(isWatching)
-        emit putEventItem(item);
+            emit putEventItem(item);
     }
     else if (fileCntDiff < 0 || dirCntDiff < 0)
     {
-        //discover dir Or file
-        //emit putRemovedItem
         qDebug() << "Removed";
 
         bool isDir = (fileCntDiff < 0 ? false : true);
-        EventItem item = createItem(path, DeletedEvent, isDir);
-
-       if(isWatching)
+        const auto item = createItem(path, DeletedEvent, isDir);
+        if(isWatching)
            emit putEventItem(item);
     }
     else if (fileCntDiff==0 && dirCntDiff == 0)
     {
 
         qDebug() << "Modified/Renamed";
-        //discover dir Or file
 
-        //emit putModifiedItem
-        bool isDir = (fileCntDiff == 0 ? false : true);
-        EventItem item = createItem(path, ModifiedEvent, isDir);
+        bool isDir = (this->compareDirList(tempItem.dirList,actDirList) ? true : false);
+        const auto item = createItem(path, ModifiedEvent, isDir);
         if(isWatching)
-        emit putEventItem(item);
+            emit putEventItem(item);
     }
     tempItem.dir_cnt = actDirCnt;
     tempItem.file_cnt = actFileCnt;
+    tempItem.dirList = actDirList;
+
+}
+
+bool FileSystemWatcher::compareDirList(QStringList oldDirList,QStringList newDirList)
+{
+    auto oldDirSet = QSet<QString>(oldDirList.begin(),oldDirList.end());
+    auto newDirSet = QSet<QString>(newDirList.begin(),newDirList.end());
+
+    const auto diffSet  = oldDirSet.subtract(newDirSet);
+    if (diffSet.size()>0)
+        return true;
+    return false;
 
 }
 

@@ -1,4 +1,4 @@
-#include "pathdatalist.h"
+#include "PathDataList.h"
 
 PathDataList::PathDataList(QObject *parent) : QObject(parent)
 {
